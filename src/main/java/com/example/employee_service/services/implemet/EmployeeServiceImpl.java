@@ -27,13 +27,25 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Flux<EmployeeEntity> getEmployeesWithUnassignedBuilding() {
+        return employeeRepository.findByBuildingIsNull();
+    }
+
+    @Override
     public Flux<EmployeeEntity> getAllEmployees() {
         return employeeRepository.findAll();
     }
 
+    // Methods repository return dto
+
     @Override
     public Mono<EmployeeDTO> getEmployeeDTOById(Long employeeId) {
         return getEmployeeById(employeeId).map(EmployeeMapper::toEmployeeDTO);
+    }
+
+    @Override
+    public Flux<EmployeeDTO> getEmployeesDTOWithUnassignedBuilding() {
+        return getEmployeesWithUnassignedBuilding().map(EmployeeMapper::toEmployeeDTO);
     }
 
     @Override

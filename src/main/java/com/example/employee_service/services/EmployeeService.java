@@ -11,11 +11,16 @@ public interface EmployeeService {
 
     Mono<EmployeeEntity> getEmployeeById(Long employeeId);
 
+    Flux<EmployeeEntity> getEmployeesWithUnassignedBuilding();
+
     Flux<EmployeeEntity> getAllEmployees();
 
     // Methods repository return dto
 
     Mono<EmployeeDTO> getEmployeeDTOById(Long employeeId);
+
+    Flux<EmployeeDTO> getEmployeesDTOWithUnassignedBuilding();
+
 
     Flux<EmployeeDTO> getAllEmployeesDTO();
 

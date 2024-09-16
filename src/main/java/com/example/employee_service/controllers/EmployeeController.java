@@ -18,12 +18,17 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping("/{employeeId}")
-    public Mono<EmployeeDTO> getEmployeeById(@PathVariable Long employeeId) {
+    public Mono<EmployeeDTO> getEmployeeDTOById(@PathVariable Long employeeId) {
         return employeeService.getEmployeeDTOById(employeeId);
     }
 
+    @GetMapping("/building/unassigned")
+    public Flux<EmployeeDTO> getEmployeesDTOWithUnassignedBuilding() {
+        return employeeService.getEmployeesDTOWithUnassignedBuilding();
+    }
+
     @GetMapping
-    public Flux<EmployeeDTO> getAllEmployees() {
+    public Flux<EmployeeDTO> getAllEmployeesDTO() {
         return employeeService.getAllEmployeesDTO();
     }
 
