@@ -24,20 +24,11 @@ public class EmployeeEntity {
     @Column("role")
     private RoleType roleType;
 
-    public EmployeeEntity(String name, String lastName, String building, String email, String password, RoleType roleType) {
+    public EmployeeEntity(String name, String lastName, RoleType roleType, String email, String password) {
         this.name = name;
         this.lastName = lastName;
-        this.building = building;
+        this.roleType = roleType;
         this.email = email;
         this.password = password;
-        this.roleType = roleType;
-    }
-
-    public EmployeeEntity(String name, String lastName, String email, String password, RoleType roleType) {
-        this.name = name;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.roleType = roleType;
     }
 }
