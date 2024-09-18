@@ -12,21 +12,21 @@ public class Utils {
     @Bean
     public CommandLineRunner initData(EmployeeRepository employeeRepository) {
         return args -> {
-            EmployeeEntity employee = new EmployeeEntity("Melba", "Morel",
-                    "melba@managify.com", "12345", RoleType.EMPLOYEE);
+            /*EmployeeEntity employee = new EmployeeEntity("Melba", "Morel",
+                    RoleType.EMPLOYEE, "melba@managify.com", "12345");
             employeeRepository.save(employee).subscribe();
 
             EmployeeEntity employeeTwo = new EmployeeEntity("Ferb", "Smith",
-                    "melba@managify.com", "12345", RoleType.EMPLOYEE);
+                    RoleType.EMPLOYEE, "melba@managify.com", "12345");
             employeeRepository.save(employeeTwo).subscribe();
 
             EmployeeEntity employeeManage = new EmployeeEntity("Carlos", "Perez",
-                    "cperz@managify.com", "12345", RoleType.MANAGER);
+                    RoleType.MANAGER, "cperz@managify.com", "12345");
             employeeRepository.save(employeeManage).subscribe();
 
             EmployeeEntity employeeAdmin = new EmployeeEntity("Daniel", "Rodado",
-                    "danielr@managify.com", "12345", RoleType.ADMIN);
-            employeeRepository.save(employeeAdmin).subscribe();
+                    RoleType.ADMIN, "danielr@managify.com", "12345");
+            employeeRepository.save(employeeAdmin).subscribe();*/
         };
     }
 }
