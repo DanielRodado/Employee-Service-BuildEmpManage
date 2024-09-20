@@ -14,6 +14,11 @@ public class GlobalExceptionHandler {
         return Mono.just(ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage()));
     }
 
+    @ExceptionHandler(EmployeeNotAssignedToBuildingException.class)
+    public Mono<ResponseEntity<String>> handleEmployeeNotAssignedToBuildingException(EmployeeNotAssignedToBuildingException ex) {
+        return Mono.just(ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage()));
+    }
+
     @ExceptionHandler(EmployeeNotFoundException.class)
     public Mono<ResponseEntity<String>> handleEmployeeNotFoundException(EmployeeNotFoundException ex) {
         return Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage()));
