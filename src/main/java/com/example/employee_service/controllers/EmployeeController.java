@@ -23,6 +23,11 @@ public class EmployeeController {
         return employeeService.getEmployeeDTOById(employeeId);
     }
 
+    @GetMapping("/building/assigned")
+    public Flux<EmployeeDTO> getEmployeesDTOWithAssignedBuilding() {
+        return employeeService.getEmployeesDTOWithAssignedBuilding();
+    }
+
     @GetMapping("/building/unassigned")
     public Flux<EmployeeDTO> getEmployeesDTOWithUnassignedBuilding() {
         return employeeService.getEmployeesDTOWithUnassignedBuilding();
