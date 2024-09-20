@@ -1,6 +1,7 @@
 package com.example.employee_service.services.implemet;
 
 import com.example.employee_service.dto.EmployeeDTO;
+import com.example.employee_service.exceptions.EmployeeNotAssignedToBuildingException;
 import com.example.employee_service.exceptions.EmployeeNotFoundException;
 import com.example.employee_service.mapper.EmployeeMapper;
 import com.example.employee_service.model.EmployeeEntity;
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import static com.example.employee_service.configurations.Messages.EMPLOYEE_NOT_FOUND;
+import static com.example.employee_service.utils.Messages.EMPLOYEE_NOT_FOUND;
+import static com.example.employee_service.utils.Messages.EMPLOYEE_UNASSIGNED;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -81,15 +83,31 @@ public class EmployeeServiceImpl implements EmployeeService {
         return existsEmployeeById(employeeId)
                 .then(buildingClientService.requestServiceEmployeeToBuilding(buildingName, "assign"))
                 .then(getEmployeeById(employeeId))
-                .flatMap(employee -> setBuildingName(employee, buildingName))
+                .flatMap(employee -> setBuilding(employee, buildingName))
                 .flatMap(this::saveEmployee)
                 .then();
     }
 
     @Override
-    public Mono<EmployeeEntity> setBuildingName(EmployeeEntity employee, String buildingName) {
+    public Mono<EmployeeEntity> setBuilding(EmployeeEntity employee, String buildingName) {
         employee.setBuilding(buildingName);
         return Mono.just(employee);
+    }
+
+    @Override
+    public Mono<Void> requestRemoveEmployeeToBuilding(Long employeeId) {
+        return getEmployeeById(employeeId)
+                .flatMap(employee ->
+                        employee.getBuilding() != null
+                                ? Mono.just(employee)
+                                : Mono.error(new EmployeeNotAssignedToBuildingException(EMPLOYEE_UNASSIGNED))
+                )
+                .flatMap(employee -> buildingClientService
+                        .requestServiceEmployeeToBuilding(employee.getBuilding(), "remove")
+                        .thenReturn(employee))
+                .flatMap(employee -> setBuilding(employee, null))
+                .flatMap(this::saveEmployee)
+                .then();
     }
 
 }

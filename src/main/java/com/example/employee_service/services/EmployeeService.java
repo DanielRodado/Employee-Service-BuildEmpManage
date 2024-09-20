@@ -32,6 +32,8 @@ public interface EmployeeService {
 
     Mono<Void> requestAssignEmployeeToBuilding(Long employeeId, String buildingName);
 
-    Mono<EmployeeEntity> setBuildingName(EmployeeEntity employee, String buildingName);
+    Mono<EmployeeEntity> setBuilding(EmployeeEntity employee, String buildingName);
+
+    Mono<Void> requestRemoveEmployeeToBuilding(Long employeeId);
 
 }

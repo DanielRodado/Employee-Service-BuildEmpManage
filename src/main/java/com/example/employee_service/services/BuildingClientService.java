@@ -15,7 +15,7 @@ public class BuildingClientService {
 
     public Mono<Void> requestServiceEmployeeToBuilding(String buildingName, String endpoint) {
         return webClient.patch()
-                .uri("/"+buildingName+"/"+endpoint)
+                .uri("/"+buildingName+"/employee/"+endpoint)
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, this::clientResponseError)
                 .toBodilessEntity()
