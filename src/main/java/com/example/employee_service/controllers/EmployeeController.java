@@ -1,13 +1,15 @@
 package com.example.employee_service.controllers;
 
 import com.example.employee_service.dto.EmployeeDTO;
-import com.example.employee_service.dto.EmployeeToBuildingDTO;
 import com.example.employee_service.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import static com.example.employee_service.utils.Messages.EMPLOYEE_ASSIGNED;
+import static com.example.employee_service.utils.Messages.EMPLOYEE_REMOVE;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -31,11 +33,19 @@ public class EmployeeController {
         return employeeService.getAllEmployeesDTO();
     }
 
-    @PatchMapping("/building/assign")
-    public Mono<ResponseEntity<String>> assignEmployeeToBuilding(@RequestBody EmployeeToBuildingDTO employeeToBuildingDTO) {
+    @PatchMapping("/building/assign/{employeeId}")
+    public Mono<ResponseEntity<String>> assignEmployeeToBuilding(@PathVariable Long employeeId,
+                                                                 @RequestBody String buildingName) {
         return employeeService
-                .requestAssignEmployeeToBuilding(employeeToBuildingDTO.employeeId(), employeeToBuildingDTO.buildingName().toUpperCase())
-                .then(Mono.just(ResponseEntity.ok("The employee assigned to building " + employeeToBuildingDTO.buildingName().toUpperCase())));
+                .requestAssignEmployeeToBuilding(employeeId, buildingName.toUpperCase())
+                .then(Mono.just(ResponseEntity.ok(EMPLOYEE_ASSIGNED + buildingName.toUpperCase())));
+    }
+
+    @PatchMapping("/building/remove/{employeeId}")
+    public Mono<ResponseEntity<String>> removeEmployeeToBuilding(@PathVariable Long employeeId) {
+        return employeeService
+                .requestRemoveEmployeeToBuilding(employeeId)
+                .then(Mono.just(ResponseEntity.ok(EMPLOYEE_REMOVE)));
     }
 
 }
