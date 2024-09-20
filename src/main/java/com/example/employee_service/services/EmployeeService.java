@@ -13,6 +13,8 @@ public interface EmployeeService {
 
     Flux<EmployeeEntity> getEmployeesWithUnassignedBuilding();
 
+    Flux<EmployeeEntity> getEmployeesWithAssignedBuilding();
+
     Flux<EmployeeEntity> getAllEmployees();
 
     Mono<EmployeeEntity> saveEmployee(EmployeeEntity employee);
@@ -24,6 +26,8 @@ public interface EmployeeService {
     Mono<EmployeeDTO> getEmployeeDTOById(Long employeeId);
 
     Flux<EmployeeDTO> getEmployeesDTOWithUnassignedBuilding();
+
+    Flux<EmployeeDTO> getEmployeesDTOWithAssignedBuilding();
 
 
     Flux<EmployeeDTO> getAllEmployeesDTO();

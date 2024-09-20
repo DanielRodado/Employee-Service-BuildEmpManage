@@ -40,6 +40,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Flux<EmployeeEntity> getEmployeesWithAssignedBuilding() {
+        return employeeRepository.findByBuildingNotNull();
+    }
+
+    @Override
     public Flux<EmployeeEntity> getAllEmployees() {
         return employeeRepository.findAll();
     }
@@ -68,6 +73,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Flux<EmployeeDTO> getEmployeesDTOWithUnassignedBuilding() {
         return getEmployeesWithUnassignedBuilding().map(EmployeeMapper::toEmployeeDTO);
+    }
+
+    @Override
+    public Flux<EmployeeDTO> getEmployeesDTOWithAssignedBuilding() {
+        return getEmployeesWithAssignedBuilding().map(EmployeeMapper::toEmployeeDTO);
     }
 
     @Override
