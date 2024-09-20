@@ -15,6 +15,10 @@ public interface EmployeeService {
 
     Flux<EmployeeEntity> getAllEmployees();
 
+    Mono<EmployeeEntity> saveEmployee(EmployeeEntity employee);
+
+    Mono<Void> existsEmployeeById(Long employeeId);
+
     // Methods repository return dto
 
     Mono<EmployeeDTO> getEmployeeDTOById(Long employeeId);
@@ -25,5 +29,9 @@ public interface EmployeeService {
     Flux<EmployeeDTO> getAllEmployeesDTO();
 
     // Methods Controller
+
+    Mono<Void> requestAssignEmployeeToBuilding(Long employeeId, String buildingName);
+
+    Mono<EmployeeEntity> setBuildingName(EmployeeEntity employee, String buildingName);
 
 }

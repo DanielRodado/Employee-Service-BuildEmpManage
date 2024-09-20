@@ -1,12 +1,11 @@
 package com.example.employee_service.controllers;
 
 import com.example.employee_service.dto.EmployeeDTO;
+import com.example.employee_service.dto.EmployeeToBuildingDTO;
 import com.example.employee_service.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -30,6 +29,13 @@ public class EmployeeController {
     @GetMapping
     public Flux<EmployeeDTO> getAllEmployeesDTO() {
         return employeeService.getAllEmployeesDTO();
+    }
+
+    @PatchMapping("/building/assign")
+    public Mono<ResponseEntity<String>> assignEmployeeToBuilding(@RequestBody EmployeeToBuildingDTO employeeToBuildingDTO) {
+        return employeeService
+                .requestAssignEmployeeToBuilding(employeeToBuildingDTO.employeeId(), employeeToBuildingDTO.buildingName().toUpperCase())
+                .then(Mono.just(ResponseEntity.ok("The employee assigned to building " + employeeToBuildingDTO.buildingName().toUpperCase())));
     }
 
 }
