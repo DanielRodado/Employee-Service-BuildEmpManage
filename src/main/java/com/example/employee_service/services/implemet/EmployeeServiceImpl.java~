@@ -1,6 +1,5 @@
 package com.example.employee_service.services.implemet;
 
-import com.example.employee_service.dto.EmployeeApplicationDTO;
 import com.example.employee_service.dto.EmployeeDTO;
 import com.example.employee_service.exceptions.EmployeeNotAssignedToBuildingException;
 import com.example.employee_service.exceptions.EmployeeNotFoundException;
@@ -117,14 +116,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                         .requestServiceEmployeeToBuilding(employee.getBuilding(), "remove")
                         .thenReturn(employee))
                 .flatMap(employee -> setBuilding(employee, null))
-                .flatMap(this::saveEmployee)
-                .then();
-    }
-
-    @Override
-    public Mono<Void> createEmployee(Mono<EmployeeApplicationDTO> employeeAppMono) {
-        return employeeAppMono
-                .map(EmployeeMapper::toEmployeeEntity)
                 .flatMap(this::saveEmployee)
                 .then();
     }
