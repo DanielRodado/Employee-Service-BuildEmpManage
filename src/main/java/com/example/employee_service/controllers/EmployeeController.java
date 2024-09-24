@@ -1,5 +1,6 @@
 package com.example.employee_service.controllers;
 
+import com.example.employee_service.dto.EmployeeApplicationDTO;
 import com.example.employee_service.dto.EmployeeDTO;
 import com.example.employee_service.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,13 @@ public class EmployeeController {
     @GetMapping
     public Flux<EmployeeDTO> getAllEmployeesDTO() {
         return employeeService.getAllEmployeesDTO();
+    }
+
+    @PostMapping
+    public Mono<ResponseEntity<String>> createEmployee(@RequestBody Mono<EmployeeApplicationDTO> employeeApplicationDTO) {
+        return employeeService
+                .createEmployee(employeeApplicationDTO)
+                .thenReturn(ResponseEntity.ok("Employee created."));
     }
 
     @PatchMapping("/building/assign/{employeeId}")
