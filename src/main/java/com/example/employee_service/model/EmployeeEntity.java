@@ -1,17 +1,13 @@
 package com.example.employee_service.model;
 
 import com.example.employee_service.enums.RoleType;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Table("employees")
 public class EmployeeEntity {
 
@@ -24,11 +20,13 @@ public class EmployeeEntity {
     @Column("role")
     private RoleType roleType;
 
-    public EmployeeEntity(String name, String lastName, RoleType roleType, String email, String password) {
+    @Builder
+    private EmployeeEntity(String name, String lastName, String building, String email, String password, RoleType roleType) {
         this.name = name;
         this.lastName = lastName;
-        this.roleType = roleType;
+        this.building = building;
         this.email = email;
         this.password = password;
+        this.roleType = RoleType.EMPLOYEE;
     }
 }
