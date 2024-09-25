@@ -7,6 +7,6 @@ public final class Messages {
     public static final String EMPLOYEE_ASSIGNED = "The employee assigned to building: ";
     public static final String EMPLOYEE_REMOVE = "The employee remove to building.";
     public static final String ROLE_CHANGED = "Role Role changed to: ";
-    public static final String EMPLOYEE_DELETED = "The employee has been deleted.";
+    public static final String EMPLOYEE_DELETED = "The employee has been removed.";
 
 }

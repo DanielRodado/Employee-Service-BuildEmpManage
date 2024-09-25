@@ -68,4 +68,9 @@ public class EmployeeController {
                 .then(Mono.just(ResponseEntity.ok(EMPLOYEE_REMOVE)));
     }
 
+    @DeleteMapping("/{employeeId}")
+    public Mono<ResponseEntity<String>> deleteEmployee(@PathVariable Long employeeId) {
+        return employeeService.deleteEmployee(employeeId).thenReturn(ResponseEntity.ok(EMPLOYEE_DELETED));
+    }
+
 }

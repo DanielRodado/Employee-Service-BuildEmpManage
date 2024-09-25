@@ -39,6 +39,8 @@ public interface EmployeeService {
 
     Mono<Void> createEmployee(Mono<EmployeeApplicationDTO> employeeAppMono);
 
+    Mono<Void> deleteEmployee(Long employeeId);
+
     Mono<Void> requestAssignEmployeeToBuilding(Long employeeId, String buildingName);
 
     Mono<EmployeeEntity> setBuilding(EmployeeEntity employee, String buildingName);

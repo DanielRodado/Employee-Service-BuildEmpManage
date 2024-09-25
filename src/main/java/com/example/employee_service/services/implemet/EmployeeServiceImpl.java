@@ -106,6 +106,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Mono<Void> deleteEmployee(Long employeeId) {
+        return getEmployeeById(employeeId).flatMap(employeeRepository::delete);
+    }
+
+    @Override
     public Mono<Void> requestAssignEmployeeToBuilding(Long employeeId, String buildingName) {
         return existsEmployeeById(employeeId)
                 .then(buildingClientService.requestServiceEmployeeToBuilding(buildingName, "assign"))
