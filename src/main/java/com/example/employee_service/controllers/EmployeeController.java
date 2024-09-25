@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import static com.example.employee_service.utils.Messages.EMPLOYEE_ASSIGNED;
-import static com.example.employee_service.utils.Messages.EMPLOYEE_REMOVE;
+import static com.example.employee_service.utils.EmployeeUtil.toRole;
+import static com.example.employee_service.utils.Messages.*;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -44,6 +44,13 @@ public class EmployeeController {
         return employeeService
                 .createEmployee(employeeApplicationDTO)
                 .thenReturn(ResponseEntity.ok("Employee created."));
+    }
+
+    @PatchMapping("/role/{employeeId}")
+    public Mono<ResponseEntity<String>> changeRole(@PathVariable Long employeeId, @RequestBody String role) {
+        return employeeService
+                .requestChangeRole(employeeId, toRole(role))
+                .thenReturn(ResponseEntity.ok(ROLE_CHANGED + role.toUpperCase()));
     }
 
     @PatchMapping("/building/assign/{employeeId}")

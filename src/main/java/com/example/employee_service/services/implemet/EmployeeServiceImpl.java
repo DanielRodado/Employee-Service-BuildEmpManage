@@ -2,8 +2,11 @@ package com.example.employee_service.services.implemet;
 
 import com.example.employee_service.dto.EmployeeApplicationDTO;
 import com.example.employee_service.dto.EmployeeDTO;
+import com.example.employee_service.enums.RoleType;
+import com.example.employee_service.exceptions.EmployeeAlreadyHasRoleException;
 import com.example.employee_service.exceptions.EmployeeNotAssignedToBuildingException;
 import com.example.employee_service.exceptions.EmployeeNotFoundException;
+import com.example.employee_service.exceptions.InvalidRoleException;
 import com.example.employee_service.mapper.EmployeeMapper;
 import com.example.employee_service.model.EmployeeEntity;
 import com.example.employee_service.repository.EmployeeRepository;
@@ -64,6 +67,11 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .then();
     }
 
+    @Override
+    public Mono<Boolean> existsEmployeeByIdAndRole(Long employeeId, RoleType role) {
+        return employeeRepository.existsByIdAndRoleType(employeeId, role);
+    }
+
     // Methods repository return dto
 
     @Override
@@ -88,6 +96,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     // Methods Controller
+
+    @Override
+    public Mono<Void> createEmployee(Mono<EmployeeApplicationDTO> employeeAppMono) {
+        return employeeAppMono
+                .map(EmployeeMapper::toEmployeeEntity)
+                .flatMap(this::saveEmployee)
+                .then();
+    }
 
     @Override
     public Mono<Void> requestAssignEmployeeToBuilding(Long employeeId, String buildingName) {
@@ -122,11 +138,26 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Mono<Void> createEmployee(Mono<EmployeeApplicationDTO> employeeAppMono) {
-        return employeeAppMono
-                .map(EmployeeMapper::toEmployeeEntity)
+    public Mono<Void> requestChangeRole(Long employeeId, RoleType role) {
+        return validateEmployeeRole(employeeId, role)
+                .then(getEmployeeById(employeeId))
+                .flatMap(employee -> changeRole(employee, role))
                 .flatMap(this::saveEmployee)
                 .then();
+    }
+
+    @Override
+    public Mono<Void> validateEmployeeRole(Long employeeId, RoleType role) {
+        return existsEmployeeByIdAndRole(employeeId, role)
+                .filter(exists -> !exists)
+                .switchIfEmpty(Mono.error(new EmployeeAlreadyHasRoleException("Employee already has role: " + role)))
+                .then();
+    }
+
+    @Override
+    public Mono<EmployeeEntity> changeRole(EmployeeEntity employee, RoleType role) {
+        employee.setRoleType(role);
+        return Mono.just(employee);
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.employee_service.services;
 
 import com.example.employee_service.dto.EmployeeApplicationDTO;
 import com.example.employee_service.dto.EmployeeDTO;
+import com.example.employee_service.enums.RoleType;
 import com.example.employee_service.model.EmployeeEntity;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -22,6 +23,8 @@ public interface EmployeeService {
 
     Mono<Void> existsEmployeeById(Long employeeId);
 
+    Mono<Boolean> existsEmployeeByIdAndRole(Long employeeId, RoleType role);
+
     // Methods repository return dto
 
     Mono<EmployeeDTO> getEmployeeDTOById(Long employeeId);
@@ -30,10 +33,11 @@ public interface EmployeeService {
 
     Flux<EmployeeDTO> getEmployeesDTOWithAssignedBuilding();
 
-
     Flux<EmployeeDTO> getAllEmployeesDTO();
 
     // Methods Controller
+
+    Mono<Void> createEmployee(Mono<EmployeeApplicationDTO> employeeAppMono);
 
     Mono<Void> requestAssignEmployeeToBuilding(Long employeeId, String buildingName);
 
@@ -41,6 +45,10 @@ public interface EmployeeService {
 
     Mono<Void> requestRemoveEmployeeToBuilding(Long employeeId);
 
-    Mono<Void> createEmployee(Mono<EmployeeApplicationDTO> employeeAppMono);
+    Mono<Void> requestChangeRole(Long employeeId, RoleType role);
+
+    Mono<Void> validateEmployeeRole(Long employeeId,  RoleType role);
+
+    Mono<EmployeeEntity> changeRole(EmployeeEntity employee,  RoleType role);
 
 }
