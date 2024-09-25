@@ -19,11 +19,6 @@ public class GlobalExceptionHandler {
         return Mono.just(ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage()));
     }
 
-    @ExceptionHandler(InvalidRoleException.class)
-    public Mono<ResponseEntity<String>> handleInvalidRoleException(InvalidRoleException ex) {
-        return Mono.just(ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage()));
-    }
-
     @ExceptionHandler(EmployeeAlreadyHasRoleException.class)
     public Mono<ResponseEntity<String>> handleEmployeeAlreadyHasRoleException(EmployeeAlreadyHasRoleException ex) {
         return Mono.just(ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage()));
