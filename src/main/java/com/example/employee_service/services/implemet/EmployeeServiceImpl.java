@@ -6,7 +6,6 @@ import com.example.employee_service.enums.RoleType;
 import com.example.employee_service.exceptions.EmployeeAlreadyHasRoleException;
 import com.example.employee_service.exceptions.EmployeeNotAssignedToBuildingException;
 import com.example.employee_service.exceptions.EmployeeNotFoundException;
-import com.example.employee_service.exceptions.InvalidRoleException;
 import com.example.employee_service.mapper.EmployeeMapper;
 import com.example.employee_service.model.EmployeeEntity;
 import com.example.employee_service.repository.EmployeeRepository;
@@ -46,6 +45,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Flux<EmployeeEntity> getEmployeesWithAssignedBuilding() {
         return employeeRepository.findByBuildingNotNull();
+    }
+
+    @Override
+    public Flux<EmployeeEntity> getEmployeesByBuilding(String buildingName) {
+        return employeeRepository.findByBuilding(buildingName);
     }
 
     @Override
@@ -90,6 +94,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Flux<EmployeeDTO> getEmployeesDTOByBuilding(String buildingName) {
+        return getEmployeesByBuilding(buildingName).map(EmployeeMapper::toEmployeeDTO);
+    }
+
+    @Override
     public Flux<EmployeeDTO> getAllEmployeesDTO() {
         return getAllEmployees().map(EmployeeMapper::toEmployeeDTO);
     }
@@ -108,6 +117,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Mono<Void> deleteEmployee(Long employeeId) {
         return getEmployeeById(employeeId).flatMap(employeeRepository::delete);
+    }
+
+    @Override
+    public Flux<EmployeeDTO> requestGetEmployeesDTOByBuilding(String buildingName) {
+        return buildingClientService
+                .requestExistsBuilding(buildingName)
+                .thenMany(getEmployeesDTOByBuilding(buildingName));
     }
 
     @Override

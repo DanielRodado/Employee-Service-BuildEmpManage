@@ -45,8 +45,6 @@ public interface EmployeeService {
 
     Mono<Void> deleteEmployee(Long employeeId);
 
-    Flux<EmployeeDTO> requestGetEmployeesDTOByBuilding(String buildingName);
-
     Mono<Void> requestAssignEmployeeToBuilding(Long employeeId, String buildingName);
 
     Mono<EmployeeEntity> setBuilding(EmployeeEntity employee, String buildingName);

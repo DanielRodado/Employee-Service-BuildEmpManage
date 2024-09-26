@@ -14,4 +14,6 @@ public interface EmployeeRepository extends ReactiveCrudRepository<EmployeeEntit
 
     Flux<EmployeeEntity> findByBuildingNotNull();
 
+    Flux<EmployeeEntity> findByBuilding(String building);
+
 }

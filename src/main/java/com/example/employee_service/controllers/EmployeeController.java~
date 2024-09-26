@@ -36,7 +36,7 @@ public class EmployeeController {
 
     @GetMapping("/building/{buildingName}")
     public Flux<EmployeeDTO> getEmployeesDTOByBuilding(@PathVariable String buildingName) {
-        return employeeService.requestGetEmployeesDTOByBuilding(buildingName.toUpperCase());
+        return employeeService.requestGetEmployeesDTOByBuilding(buildingName);
     }
 
     @GetMapping
