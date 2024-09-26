@@ -11,7 +11,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomServiceException.class)
     public Mono<ResponseEntity<String>> handleCustomServiceException(CustomServiceException ex) {
-        return Mono.just(ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage()));
+        return Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage()));
     }
 
     @ExceptionHandler(EmployeeNotAssignedToBuildingException.class)
