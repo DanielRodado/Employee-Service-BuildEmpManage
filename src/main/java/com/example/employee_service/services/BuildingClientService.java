@@ -26,6 +26,19 @@ public class BuildingClientService {
                                         : Mono.error(new CustomServiceException("Unexpected status: " + response.getStatusCode())));
     }
 
+    public Mono<Void> requestExistsBuilding(String buildingName) {
+        return webClient.get()
+                .uri("/exists/"+buildingName)
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, this::clientResponseError)
+                .toBodilessEntity()
+                .flatMap(response ->
+                        response.getStatusCode()
+                                .equals(HttpStatus.OK)
+                                ? Mono.empty()
+                                : Mono.error(new CustomServiceException("Unexpected status: " + response.getStatusCode())));
+    }
+
     private Mono<CustomServiceException> clientResponseError(ClientResponse clientResponse) {
         return clientResponse
                 .bodyToMono(String.class)
