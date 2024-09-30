@@ -38,11 +38,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Mono<EmployeeEntity> getEmployeeByEmail(String email) {
-        return employeeRepository.findByEmail(email);
-    }
-
-    @Override
     public Flux<EmployeeEntity> getEmployeesWithUnassignedBuilding() {
         return employeeRepository.findByBuildingIsNull();
     }

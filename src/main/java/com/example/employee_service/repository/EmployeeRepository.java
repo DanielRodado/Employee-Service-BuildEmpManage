@@ -10,6 +10,8 @@ public interface EmployeeRepository extends ReactiveCrudRepository<EmployeeEntit
 
     Mono<Boolean> existsByIdAndRoleType(Long id, RoleType role);
 
+    Mono<EmployeeEntity> findByEmail(String email);
+
     Flux<EmployeeEntity> findByBuildingIsNull();
 
     Flux<EmployeeEntity> findByBuildingNotNull();

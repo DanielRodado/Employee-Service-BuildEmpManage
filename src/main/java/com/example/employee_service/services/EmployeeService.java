@@ -13,6 +13,8 @@ public interface EmployeeService {
 
     Mono<EmployeeEntity> getEmployeeById(Long employeeId);
 
+    Mono<EmployeeEntity> getEmployeeByEmail(String email);
+
     Flux<EmployeeEntity> getEmployeesWithUnassignedBuilding();
 
     Flux<EmployeeEntity> getEmployeesWithAssignedBuilding();
