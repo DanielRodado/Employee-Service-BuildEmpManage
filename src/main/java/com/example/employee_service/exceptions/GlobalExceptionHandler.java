@@ -6,12 +6,14 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import reactor.core.publisher.Mono;
 
+import static com.example.employee_service.utils.ResponseUtil.httpStatusCode;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomServiceException.class)
     public Mono<ResponseEntity<String>> handleCustomServiceException(CustomServiceException ex) {
-        return Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage()));
+        return Mono.just(ResponseEntity.status(httpStatusCode(ex.getMessage())).body(ex.getMessage()));
     }
 
     @ExceptionHandler(EmployeeNotAssignedToBuildingException.class)
